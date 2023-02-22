@@ -1,34 +1,33 @@
-import 'package:aichat/constraints/constraints.dart';
-import 'package:aichat/model/api_model.dart';
-import 'package:aichat/model/chat_model.dart';
+import 'dart:developer';
+
+import 'package:aichat/provider/chat_provider.dart';
 import 'package:aichat/provider/chat_provider.dart';
 import 'package:aichat/widgets/chat_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+import 'provider/chat_provider.dart';
+
+class indexpage extends StatefulWidget {
+  const indexpage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<indexpage> createState() => _indexpageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _indexpageState extends State<indexpage> {
   bool _isTyping = false;
+
   late TextEditingController textEditingController;
-  late FocusNode focusNode;
   late ScrollController _listScrollController;
+  late FocusNode focusNode;
   @override
   void initState() {
     _listScrollController = ScrollController();
-    focusNode = FocusNode();
     textEditingController = TextEditingController();
-    // TODO: implement initState
+    focusNode = FocusNode();
     super.initState();
   }
 
@@ -40,139 +39,148 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     final chatprovider = Provider.of<chatProvider>(context);
     return Scaffold(
-      key: scaffoldKey,
+      backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(
-          "AskMe AI",
-          style: TextStyle(fontSize: 25),
+        elevation: 10,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
         ),
-        centerTitle: true,
+        title: const Text("AskMe AI"),
         actions: [
           PopupMenuButton(
               itemBuilder: (context) => [
                     PopupMenuItem(child: Text("Developer: Rohan Karn")),
                   ])
         ],
-        backgroundColor: Colors.black87,
-        elevation: 8.0,
+        centerTitle: true,
+        backgroundColor: Colors.black,
         shadowColor: Colors.lightBlueAccent,
       ),
-      backgroundColor: Colors.black45,
       body: SafeArea(
-          child: Column(children: [
-        Flexible(
-            child: ListView.builder(
-                controller: _listScrollController,
-                itemCount: chatprovider.getChatlist.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onLongPress: () {
-                      Clipboard.setData(new ClipboardData(
-                              text: chatprovider.getChatlist[index].msg))
-                          .then((_) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text("Copied!"),
-                          // backgroundColor: Colors.red,
-                        ));
-                      });
-                      // ScaffoldMessenger.of(context).showSnackBar(context: Text("Copied to clipboard")));
-                    },
-                    child: ChatWidget(
-                      msg: chatprovider.getChatlist[index].msg,
-                      chatIndex: chatprovider.getChatlist[index].chatIndex,
-                    ),
-                  );
-                })),
-        if (_isTyping) ...[
-          const SpinKitChasingDots(
-            color: Colors.white,
-            size: 18,
-          ),
-        ],
-        SizedBox(
-          height: 20,
-        ),
-        Material(
-          color: Colors.white10,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Expanded(
-                    child: TextField(
-                  focusNode: focusNode,
-                  style: const TextStyle(color: Colors.white),
-                  controller: textEditingController,
-                  onSubmitted: (value) {},
-                  decoration: InputDecoration.collapsed(
-                      hintText: "Ask me anything",
-                      hintStyle: TextStyle(color: Colors.white)),
-                )),
-                IconButton(
-                    onPressed: () async {
-                      await sendMessageCT(chatprovider: chatprovider);
-                    },
-                    icon: Icon(
-                      Icons.send_rounded,
-                      color: Colors.white,
-                    ))
-              ],
+        child: Column(
+          children: [
+            Flexible(
+              child: ListView.builder(
+                  controller: _listScrollController,
+                  itemCount: chatprovider.getChatlist.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onLongPress: () {
+                        Clipboard.setData(new ClipboardData(
+                                text: chatprovider.getChatlist[index].msg))
+                            .then((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("Copied to Clipboard!"),
+                          ));
+                        });
+                      },
+                      child: ChatWidget(
+                        msg: chatprovider.getChatlist[index].msg,
+                        chatIndex: chatprovider.getChatlist[index].chatIndex,
+                      ),
+                    );
+                  }),
             ),
-          ),
-        )
-      ])),
+            if (_isTyping) ...[
+              const SpinKitChasingDots(
+                color: Colors.white,
+                size: 20,
+              ),
+            ],
+            const SizedBox(
+              height: 15,
+            ),
+            Material(
+              color: Colors.white12,
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        focusNode: focusNode,
+                        style: const TextStyle(color: Colors.white),
+                        controller: textEditingController,
+                        onSubmitted: (value) async {
+                          await sendMessageFCT(chatProvider: chatprovider);
+                        },
+                        decoration: const InputDecoration.collapsed(
+                            hintText: "Ask me anything",
+                            hintStyle: TextStyle(color: Colors.white)),
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () async {
+                          await sendMessageFCT(chatProvider: chatprovider);
+                        },
+                        icon: const Icon(
+                          Icons.send,
+                          color: Colors.white,
+                        ))
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  void scrollEnd() {
+  void scrollListToEND() {
     _listScrollController.animateTo(
         _listScrollController.position.maxScrollExtent,
-        duration: const Duration(seconds: 1),
-        curve: Curves.easeInOut);
+        duration: const Duration(seconds: 2),
+        curve: Curves.easeOut);
   }
 
-  Future<void> sendMessageCT({required chatProvider chatprovider}) async {
+  Future<void> sendMessageFCT({required chatProvider chatProvider}) async {
     if (_isTyping) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Try after the running process process completes"),
-        backgroundColor: Colors.red,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Prompt in progress"),
+          backgroundColor: Colors.red,
+        ),
+      );
       return;
     }
     if (textEditingController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text("Invalid Input.\nEmpty message not allowed"),
-        backgroundColor: Colors.red,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Invalid Input.\n Message can't be empty"),
+          backgroundColor: Colors.red,
+        ),
+      );
       return;
     }
     try {
-      String txt = textEditingController.text;
-
+      String msg = textEditingController.text;
       setState(() {
         _isTyping = true;
-        //chatList.add(ChatModel(msg: txt, chatIndex: 0));
-        chatprovider.addusermsg(msg: txt);
+        chatProvider.addusermsg(msg: msg);
         textEditingController.clear();
         focusNode.unfocus();
       });
-      await chatprovider.sendmsg(msg: txt);
+      await chatProvider.sendmsg(
+        msg: msg,
+      );
 
-      // chatList.addAll(await ApiModel.messageModel(message: txt));
       setState(() {});
     } catch (error) {
-      print("error $error");
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(error.toString()),
-        backgroundColor: Colors.red,
-      ));
+      log("error $error");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error.toString()),
+          backgroundColor: Colors.red,
+        ),
+      );
     } finally {
       setState(() {
-        scrollEnd();
+        scrollListToEND();
         _isTyping = false;
       });
     }
