@@ -23,13 +23,7 @@ class ChatWidget extends StatelessWidget {
           Material(
             color: chatIndex == 0 ? Colors.deepPurple : Colors.purple,
             // borderRadius: BorderRadius.all(Radius.circular(20))),
-            borderRadius: chatIndex == 0
-                ? BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    bottomLeft: Radius.circular(10))
-                : BorderRadius.only(
-                    topRight: Radius.circular(8),
-                    bottomRight: Radius.circular(10)),
+            borderRadius: BorderRadius.circular(10),
 
             child: Padding(
               padding: const EdgeInsets.all(10.0),

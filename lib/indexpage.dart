@@ -31,35 +31,19 @@ class _indexpageState extends State<indexpage> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    _listScrollController.dispose();
-    textEditingController.dispose();
-    focusNode.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _listScrollController.dispose();
+  //   textEditingController.dispose();
+  //   focusNode.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     final chatprovider = Provider.of<chatProvider>(context);
     return Scaffold(
       backgroundColor: Colors.black,
-      appBar: AppBar(
-        elevation: 10,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-        ),
-        title: const Text("AskMe AI"),
-        actions: [
-          PopupMenuButton(
-              itemBuilder: (context) => [
-                    PopupMenuItem(child: Text("Developer: Rohan Karn")),
-                  ])
-        ],
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        shadowColor: Colors.lightBlueAccent,
-      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -96,37 +80,73 @@ class _indexpageState extends State<indexpage> {
             ),
             Material(
               color: Colors.white12,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
+              child: Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                child: Column(
                   children: [
-                    Expanded(
-                      child: TextField(
-                        focusNode: focusNode,
-                        style: const TextStyle(color: Colors.white),
-                        controller: textEditingController,
-                        onSubmitted: (value) async {
-                          await sendMessageFCT(chatProvider: chatprovider);
-                          scrollListToEND();
-                        },
-                        decoration: const InputDecoration.collapsed(
-                            hintText: "Ask me anything",
-                            hintStyle: TextStyle(color: Colors.white)),
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 250, 249, 246),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    focusNode: focusNode,
+                                    controller: textEditingController,
+                                    onFieldSubmitted: (value) async {
+                                      await sendMessageFCT(
+                                          chatProvider: chatprovider);
+                                      scrollListToEND();
+                                    },
+                                    decoration: InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        hintText: ' Enter your prompt',
+                                        hintStyle: TextStyle(
+                                          color: Colors.black45,
+                                        ),
+                                        alignLabelWithHint: false,
+                                        border: InputBorder.none),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    IconButton(
-                        onPressed: () async {
-                          await sendMessageFCT(chatProvider: chatprovider);
-                          scrollListToEND();
-                        },
-                        icon: const Icon(
-                          Icons.send,
-                          color: Colors.white,
-                        ))
+                    SizedBox(
+                      height: 30,
+                    ),
+                    SizedBox(
+                        width: 180,
+                        height: 44,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                shape: StadiumBorder(),
+                                backgroundColor: Colors.white),
+                            onPressed: () async {
+                              print("Clicked");
+                              await sendMessageFCT(chatProvider: chatprovider);
+                              scrollListToEND();
+                            },
+                            child: Text(
+                              'Get Answer',
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            )))
                   ],
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
