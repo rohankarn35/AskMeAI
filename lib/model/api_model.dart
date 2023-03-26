@@ -9,7 +9,11 @@ class ApiModel {
   static Future<List<ChatModel>> messageModel({required String message}) async {
     var response = await http.post(
       Uri.parse("https://api.openai.com/v1/completions"),
-      headers: {'Authorization': '', "Content-Type": "application/json"},
+      headers: {
+        'Authorization':
+            //use your own api key,
+        "Content-Type": "application/json"
+      },
       body: jsonEncode(
         {
           "model": "text-davinci-003",
@@ -38,7 +42,8 @@ class ApiModel {
 class ImgApi {
   static final header = {
     "Content-Type": "application/json",
-    'Authorization': '',
+    'Authorization':
+        //Use your own api key
   };
   static final imgurl =
       Uri.parse('https://api.openai.com/v1/images/generations');

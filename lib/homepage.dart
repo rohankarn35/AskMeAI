@@ -1,3 +1,4 @@
+import 'package:aichat/about.dart';
 import 'package:aichat/imageai/imagepage.dart';
 import 'package:aichat/indexpage.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,12 @@ class _HomePageState extends State<HomePage>
             actions: [
               Container(
                   padding: EdgeInsets.only(right: 10),
-                  child: InkWell(onTap: () {}, child: Icon(Icons.info_outline)))
+                  child: InkWell(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => About()));
+                      },
+                      child: Icon(Icons.info_outline)))
             ],
             title: Text('AskMe AI'),
             centerTitle: true,
