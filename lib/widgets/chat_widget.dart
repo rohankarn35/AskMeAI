@@ -1,11 +1,14 @@
+import 'dart:convert';
+import 'dart:convert' show utf8;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class ChatWidget extends StatelessWidget {
-  const ChatWidget({super.key, required this.msg, required this.chatIndex});
+  ChatWidget({super.key, required this.msg, required this.chatIndex});
   final String msg;
   final int chatIndex;
-
+  // var encoded = utf8.encode('hello world');
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,10 +25,10 @@ class ChatWidget extends StatelessWidget {
             // borderRadius: BorderRadius.all(Radius.circular(20))),
             borderRadius: chatIndex == 0
                 ? BorderRadius.only(
-                    topLeft: Radius.circular(20),
+                    topLeft: Radius.circular(8),
                     bottomLeft: Radius.circular(10))
                 : BorderRadius.only(
-                    topRight: Radius.circular(20),
+                    topRight: Radius.circular(8),
                     bottomRight: Radius.circular(10)),
 
             child: Padding(
@@ -53,7 +56,7 @@ class ChatWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        msg,
+                        utf8.decode(msg.runes.toList()),
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

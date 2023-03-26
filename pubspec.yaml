@@ -39,6 +39,8 @@ dependencies:
   flutter_spinkit: any
   http: any
   provider: any
+  animated_text_kit: ^4.2.2
+  nepali_utils: ^3.0.3
 
 dev_dependencies:
   flutter_test:

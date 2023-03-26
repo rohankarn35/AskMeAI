@@ -9,7 +9,11 @@ class ApiModel {
   static Future<List<ChatModel>> messageModel({required String message}) async {
     var response = await http.post(
       Uri.parse("https://api.openai.com/v1/completions"),
-      headers: {'Authorization': 'Bearer ', "Content-Type": "application/json"},
+      headers: {
+        'Authorization':
+            'Bearer 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',
+        "Content-Type": "application/json"
+      },
       body: jsonEncode(
         {
           "model": "text-davinci-003",

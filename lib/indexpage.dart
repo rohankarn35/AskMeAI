@@ -107,6 +107,7 @@ class _indexpageState extends State<indexpage> {
                         controller: textEditingController,
                         onSubmitted: (value) async {
                           await sendMessageFCT(chatProvider: chatprovider);
+                          scrollListToEND();
                         },
                         decoration: const InputDecoration.collapsed(
                             hintText: "Ask me anything",
@@ -116,6 +117,7 @@ class _indexpageState extends State<indexpage> {
                     IconButton(
                         onPressed: () async {
                           await sendMessageFCT(chatProvider: chatprovider);
+                          scrollListToEND();
                         },
                         icon: const Icon(
                           Icons.send,
@@ -134,7 +136,7 @@ class _indexpageState extends State<indexpage> {
   void scrollListToEND() {
     _listScrollController.animateTo(
         _listScrollController.position.maxScrollExtent,
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 1),
         curve: Curves.easeOut);
   }
 

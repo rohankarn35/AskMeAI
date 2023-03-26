@@ -1,9 +1,11 @@
 import 'package:aichat/indexpage.dart';
 import 'package:aichat/provider/chat_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:nepali_utils/nepali_utils.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  NepaliUtils(Language.nepali);
   runApp(const MyApp());
 }
 
