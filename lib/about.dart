@@ -149,7 +149,7 @@ class _AboutState extends State<About> {
                     height: 10,
                   ),
                   Text(
-                    "--> In the chat section, you can provide your prompt and get the answer.\n\n--> In the image section, you can provide your prompt,select the size and get the AI generated image.\n\n--> The reponse will take time depending upon your internet speed.\n\n-->App is still under development, so you may feel it buggy.",
+                    "--> In the chat section, you can provide your prompt and get the answer.\n\n--> In the image section, you can provide your prompt,select the size and get the AI generated image.\n\n--> The reponse will take time depending upon your internet speed.\n\n\---> You will get random message if prompt given is not readable by AI.",
                     style: TextStyle(color: Colors.white),
                   )
                 ],

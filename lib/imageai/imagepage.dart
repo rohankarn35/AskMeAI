@@ -25,8 +25,8 @@ class _ImagePageState extends State<ImagePage> {
   String? dropvalue;
   var imgtextcontroller = TextEditingController();
   String imaged = '';
-  bool isloading = false;
   String waiting = 'Waiting for your prompt...';
+  bool isloading = false;
   ScreenshotController screenshotController = ScreenshotController();
 
   downloadimag() async {
@@ -40,7 +40,7 @@ class _ImagePageState extends State<ImagePage> {
       print(filename);
       if (await path.exists()) {
         await screenshotController.captureAndSave(path.path,
-            delay: const Duration(milliseconds: 100),
+            delay: Duration(milliseconds: 100),
             fileName: filename,
             pixelRatio: 1.0);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -49,14 +49,6 @@ class _ImagePageState extends State<ImagePage> {
         ));
       } else {
         await path.create();
-        await screenshotController.captureAndSave(path.path,
-            delay: const Duration(milliseconds: 100),
-            fileName: filename,
-            pixelRatio: 1.0);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Downloaded to ${path.path}"),
-          backgroundColor: Color.fromARGB(255, 36, 218, 36),
-        ));
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -263,10 +255,11 @@ class _ImagePageState extends State<ImagePage> {
                               shape: StadiumBorder(),
                               backgroundColor: Colors.white),
                           onPressed: () async {
-                            waiting =
-                                'Please wait while your image is being generated...';
+                            print("Clicked");
                             if (imgtextcontroller.text.isNotEmpty &&
                                 dropvalue!.isNotEmpty) {
+                              waiting =
+                                  'Please wait while your image is being generated';
                               setState(() {
                                 isloading = false;
                               });

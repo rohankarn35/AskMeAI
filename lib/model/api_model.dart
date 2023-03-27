@@ -11,7 +11,7 @@ class ApiModel {
       Uri.parse("https://api.openai.com/v1/completions"),
       headers: {
         'Authorization':
-            //use your own api key,
+            //enter your api key
         "Content-Type": "application/json"
       },
       body: jsonEncode(
@@ -43,11 +43,12 @@ class ImgApi {
   static final header = {
     "Content-Type": "application/json",
     'Authorization':
-        //Use your own api key
+        //enter your api key
   };
   static final imgurl =
       Uri.parse('https://api.openai.com/v1/images/generations');
   static generateImage(String text, String size) async {
+    // print(text);
     var res = await http.post(
       imgurl,
       headers: header,
@@ -61,11 +62,11 @@ class ImgApi {
     );
     if (res.statusCode == 200) {
       var data = jsonDecode(res.body.toString());
-      print(data['data'][0]['url']);
-      // print(data.data[0]['imgurl'].toString());
+      // print(data['data'][0]['url']);
+      // print(data.data[0]['url'].toString());
       return data["data"][0]['url'].toString();
     } else {
-      print("Error");
+      Text("Error");
     }
   }
 }
