@@ -1,30 +1,27 @@
-import 'package:aichat/about.dart';
-import 'package:aichat/homepage.dart';
-import 'package:aichat/imageai/imagepage.dart';
-import 'package:aichat/indexpage.dart';
-import 'package:aichat/provider/chat_provider.dart';
-import 'package:aichat/splashscreen.dart';
+import 'package:aichat/homescreen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'providers/active_theme_provider.dart';
+import 'screens/chat_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'constants/themes.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: App()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends ConsumerWidget {
+  const App({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => chatProvider(),
-        )
-      ],
-      child:
-          MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen()),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final activeTheme = ref.watch(activeThemeProvider);
+    return MaterialApp(
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      debugShowCheckedModeBanner: false,
+      themeMode: activeTheme == Themes.dark ? ThemeMode.dark : ThemeMode.light,
+      home: const HomePage(),
     );
   }
 }

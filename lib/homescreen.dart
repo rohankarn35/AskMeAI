@@ -1,9 +1,11 @@
-import 'package:aichat/about.dart';
-import 'package:aichat/imageai/imagepage.dart';
-import 'package:aichat/indexpage.dart';
+
+import 'package:aichat/screens/chat_screen.dart';
+import 'package:aichat/widgets/my_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+
+import 'imagepage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,35 +19,12 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+    
       length: 2,
       child: Scaffold(
-          backgroundColor: Colors.black,
-          appBar: AppBar(
-            backgroundColor: Colors.black,
-            elevation: 5.0,
-            // // shadowColor: Colors.amberAccent,
-            // bottom: TabBar(
-            //   tabs: [
-            //     Tab(
-            //       icon: Icon(Icons.chat_bubble),
-            //       text: "Chat",
-            //     ),
-            //     Tab(icon: Icon(Icons.image_rounded), text: "Image"),
-            //   ],
-            // ),
-            actions: [
-              Container(
-                  padding: EdgeInsets.only(right: 10),
-                  child: InkWell(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => About()));
-                      },
-                      child: Icon(Icons.info_outline)))
-            ],
-            title: Text('AskMe AI'),
-            centerTitle: true,
-          ),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      
+          appBar: MyAppBar(),
           body: Padding(
             padding: EdgeInsets.all(8),
             child: Column(
@@ -58,7 +37,7 @@ class _HomePageState extends State<HomePage>
                   ),
                   child: TabBar(
                     indicator: BoxDecoration(
-                        color: Colors.deepPurpleAccent,
+                        color: Theme.of(context).colorScheme.secondary,
                         borderRadius: BorderRadius.circular(20)),
                     labelColor: Colors.white,
                     unselectedLabelColor: Colors.black,
@@ -73,7 +52,7 @@ class _HomePageState extends State<HomePage>
                 Expanded(
                     child: TabBarView(
                   children: [
-                    Center(child: indexpage()),
+                    Center(child: ChatScreen()),
                     Center(child: ImagePage()),
                   ],
                 ))

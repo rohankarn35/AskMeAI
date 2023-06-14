@@ -48,6 +48,9 @@ dependencies:
   flutter_linkify: ^5.0.2
   animated_splash_screen: ^1.3.0
   page_transition: ^2.0.9
+  flutter_riverpod: ^2.3.6
+  chat_gpt_sdk: ^2.2.0
+  speech_to_text: ^6.1.1
 
 
 
